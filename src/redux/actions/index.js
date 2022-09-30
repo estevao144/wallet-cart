@@ -1,6 +1,6 @@
-export const LOGIN_START = 'LOGIN_START';
+export const FORM_SUBMIT = 'FORM_SUBMIT';
 
 export const buttonLogin = (value) => ({
-  type: LOGIN_START,
+  type: FORM_SUBMIT,
   value,
 });

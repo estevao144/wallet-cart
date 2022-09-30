@@ -10,7 +10,7 @@ const FORM_SUBMIT = 'FORM_SUBMIT';
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case FORM_SUBMIT:
-    return { ...state, ...action.payload };
+    return { ...state, email: action.value };
   default:
     return state;
   }

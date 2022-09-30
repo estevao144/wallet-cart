@@ -15,7 +15,7 @@ class Login extends React.Component {
 
   validaPassword = () => {
     const { passwordInput } = this.state;
-    const minCarac = 6;
+    const minCarac = 5;
     if (passwordInput.length >= minCarac) {
       return true;
     }
@@ -63,7 +63,7 @@ class Login extends React.Component {
             type="email"
             value={ emailInput }
             name="emailInput"
-            onChange={ this.handleChange }
+            onChange={ (event) => this.handleChange(event) }
           />
 
         </label>
@@ -74,7 +74,7 @@ class Login extends React.Component {
             value={ passwordInput }
             name="passwordInput"
             data-testid="password-input"
-            onChange={ this.handleChange }
+            onChange={ (event) => this.handleChange(event) }
           />
         </label>
         <Link to="/carteira">
