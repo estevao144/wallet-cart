@@ -1,17 +1,18 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-const INITIAL_STATE = {
-  currencies: [], // array de string
-  expenses: [], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
-  editor: false, // valor booleano que indica de uma despesa está sendo editada
-  idToEdit: 0, // valor numérico que armazena o id da despesa que esta sendo editada
-};
+import { FORM_SUBMIT, GET_CURRENCIES, FAILED_REQUEST } from '../actions';
 
-const FORM_SUBMIT = 'FORM_SUBMIT';
+const INITIAL_STATE = {
+  currencies: [],
+};
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case FORM_SUBMIT:
-    return { ...state, ...action.payload };
+    return { ...state, ...action.curr };
+  case GET_CURRENCIES:
+    return { ...state, currencies: Object.keys(action.curr) };
+  case FAILED_REQUEST:
+    return { ...state, error };
+
   default:
     return state;
   }
