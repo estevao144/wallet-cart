@@ -2,6 +2,7 @@ import { FORM_SUBMIT, GET_CURRENCIES, FAILED_REQUEST } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
+  expenses: [],
 };
 
 const wallet = (state = INITIAL_STATE, action) => {

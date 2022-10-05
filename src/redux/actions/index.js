@@ -42,7 +42,3 @@ export function fetchCurrencyAPI() {
     }
   };
 }
-// const endpoint = 'https://economia.awesomeapi.com.br/json/all';
-// const data = await fetch(endpoint);
-// const json = await data.json();
-// const curr = Object.keys(json);
