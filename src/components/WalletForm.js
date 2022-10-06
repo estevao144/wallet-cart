@@ -1,15 +1,15 @@
 import React from 'react';
-import { arrayOf, PropTypes } from 'prop-types';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchCurrencyAPI } from '../redux/actions';
+import { fetchCurrencyAPI, fetchAPIExpense } from '../redux/actions';
 
 class WalletForm extends React.Component {
   state = {
-    id: 0,
     value: 0,
+    description: '',
     currency: 'USD',
-    paymentMethod: 'Dinheiro',
-    category: 'Alimentação',
+    method: 'Dinheiro',
+    tag: 'Alimentação',
   };
 
   async componentDidMount() {
@@ -17,34 +17,28 @@ class WalletForm extends React.Component {
     await getCurrency();
   }
 
-  handleClick(event) {
-    event.preventDefault();
-    const { getCurrency } = this.props;
-    getCurrency();
-    const { addExpense, currencies } = this.props;
-    const { id, value, description,
-      currency, paymentMethod, category,
-    } = this.state;
-    const expenseObj = {
-      id,
+  handleClick = () => {
+    const { value, currency, description, method, tag } = this.state;
+    console.log(this.state);
+    const { addExpenseTotal, idNumber } = this.props;
+    const response = {
+      id: idNumber,
       value,
       description,
       currency,
-      paymentMethod,
-      category,
-      exchangeRates: currencies,
+      method,
+      tag,
     };
-    addExpense(expenseObj);
+    addExpenseTotal(response);
 
     this.setState({
-      id: id + 1,
-      value: 0,
+      value: '',
       description: '',
       currency: 'USD',
-      paymentMethod: 'Dinheiro',
-      category: 'Alimentação',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     });
-  }
+  };
 
   handleChange(event) {
     this.setState({
@@ -56,7 +50,6 @@ class WalletForm extends React.Component {
     const { currencies } = this.props;
     const { currency } = this.state;
     const keys = currencies.filter((exc) => (exc !== 'USDT'));
-    console.log(keys);
     return (
       <label
         htmlFor="currency-input"
@@ -80,7 +73,7 @@ class WalletForm extends React.Component {
   };
 
   renderInputs() {
-    const { value } = this.state;
+    const { value, description } = this.state;
     return (
       <>
         <label
@@ -104,6 +97,7 @@ class WalletForm extends React.Component {
             data-testid="description-input"
             type="text"
             id="description-input"
+            value={ description }
             name="description"
             onChange={ (event) => this.handleChange(event) }
           />
@@ -113,17 +107,17 @@ class WalletForm extends React.Component {
   }
 
   renderMethod() {
-    const { paymentMethod } = this.state;
+    const { method } = this.state;
     return (
       <label
-        htmlFor="paymentMethod-input"
+        htmlFor="method-input"
       >
         Método de pagamento:
         <select
           data-testid="method-input"
-          id="paymentMethod-input"
-          value={ paymentMethod }
-          name="paymentMethod"
+          id="method-input"
+          value={ method }
+          name="method"
           onChange={ (event) => this.handleChange(event) }
         >
           <option
@@ -147,17 +141,17 @@ class WalletForm extends React.Component {
   }
 
   renderCategory() {
-    const { category } = this.state;
+    const { tag } = this.state;
     return (
       <label
-        htmlFor="category-input"
+        htmlFor="tag-input"
       >
         Categoria
         <select
           data-testid="tag-input"
-          name="category"
-          value={ category }
-          id="category-input"
+          name="tag"
+          value={ tag }
+          id="tag-input"
           onChange={ (event) => this.handleChange(event) }
         >
           <option
@@ -200,7 +194,7 @@ class WalletForm extends React.Component {
           { this.renderMethod() }
         </form>
         <button
-          type="submit"
+          type="button"
           onClick={ this.handleClick }
         >
           Adicionar despesa
@@ -214,17 +208,19 @@ class WalletForm extends React.Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  idNumber: state.wallet.expenses.length,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addExpense: (expense) => dispatch(saveExpense(expense)),
+  addExpenseTotal: (expense) => dispatch(fetchAPIExpense(expense)),
   getCurrency: () => dispatch(fetchCurrencyAPI()),
 });
 
 WalletForm.propTypes = {
-  addExpense: PropTypes.func.isRequired,
+  currencies: PropTypes.instanceOf(Array).isRequired,
+  idNumber: PropTypes.number.isRequired,
+  addExpenseTotal: PropTypes.func.isRequired,
   getCurrency: PropTypes.func.isRequired,
-  currencies: arrayOf(PropTypes.Object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);

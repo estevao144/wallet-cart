@@ -1,16 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes, arrayOf, shape } from 'prop-types';
 import { connect } from 'react-redux';
 
 class Header extends React.Component {
-  state = {
-    valor: 0,
-    currency: 'BRL',
-  };
-
   render() {
-    const { emailInput } = this.props;
-    const { valor, currency } = this.state;
+    const { emailInput, expenses } = this.props;
+    const soma = expenses.reduce((acc, curr) => {
+      const { value, currency, exchangeRates } = curr;
+      const converAtual = value * exchangeRates[currency].ask;
+      console.log(converAtual);
+      return Number((acc + converAtual).toFixed(2));
+    }, 0);
 
     return (
       <div>
@@ -21,15 +21,18 @@ class Header extends React.Component {
           </p>
         </div>
         <div>
-          <p data-testid="total-field">
-            <span>Total de despesas: </span>
-            {valor}
+          <p>
+            {' '}
+            Total de despesas:
+            <span data-testid="total-field">
+              { soma }
+            </span>
           </p>
         </div>
         <div>
           <p data-testid="header-currency-field">
             <span>Moedas: </span>
-            {currency}
+            BRL
           </p>
         </div>
       </div>
@@ -40,10 +43,11 @@ class Header extends React.Component {
 const mapStateToProps = (state) => (
   {
     emailInput: state.user.email,
+    expenses: state.wallet.expenses,
   });
 
 Header.propTypes = {
-  emailInput: PropTypes.string.isRequired,
-};
+  emailInput: PropTypes.string,
+  expenses: arrayOf(shape()) }.isRequired;
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps)(Header);

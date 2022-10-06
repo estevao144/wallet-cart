@@ -1,4 +1,5 @@
-import { FORM_SUBMIT, GET_CURRENCIES, FAILED_REQUEST } from '../actions';
+import { FORM_SUBMIT, GET_CURRENCIES, FAILED_REQUEST,
+  ADD_EXPENSE, NEW_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -11,6 +12,13 @@ const wallet = (state = INITIAL_STATE, action) => {
     return { ...state, ...action.curr };
   case GET_CURRENCIES:
     return { ...state, currencies: Object.keys(action.curr) };
+  case ADD_EXPENSE:
+    return { ...state, expenses: [...state.expenses, action.expenses] };
+  case NEW_EXPENSE:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.payload],
+    };
   case FAILED_REQUEST:
     return { ...state, error };
 
