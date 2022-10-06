@@ -5,6 +5,7 @@ import { fetchCurrencyAPI, fetchAPIExpense } from '../redux/actions';
 
 class WalletForm extends React.Component {
   state = {
+    id: 0,
     value: 0,
     description: '',
     currency: 'USD',
@@ -18,11 +19,10 @@ class WalletForm extends React.Component {
   }
 
   handleClick = () => {
-    const { value, currency, description, method, tag } = this.state;
-    console.log(this.state);
-    const { addExpenseTotal, idNumber } = this.props;
+    const { id, value, currency, description, method, tag } = this.state;
+    const { addExpenseTotal, expenses } = this.props;
     const response = {
-      id: idNumber,
+      id: id + expenses.length,
       value,
       description,
       currency,
@@ -208,7 +208,7 @@ class WalletForm extends React.Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
-  idNumber: state.wallet.expenses.length,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -218,9 +218,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 WalletForm.propTypes = {
   currencies: PropTypes.instanceOf(Array).isRequired,
-  idNumber: PropTypes.number.isRequired,
   addExpenseTotal: PropTypes.func.isRequired,
   getCurrency: PropTypes.func.isRequired,
+  expenses: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
