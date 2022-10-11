@@ -7,6 +7,7 @@ export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
 export const FAILED_REQUEST = 'FAILED_REQUEST';
 export const GET_CURRENCIES = 'GET_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const DELETE_EXPENSES = 'DELETE_EXPENSES';
 
 export const buttonLogin = (value) => ({
   type: FORM_SUBMIT,
@@ -30,6 +31,11 @@ export const addExpenses = (expenses) => ({
 export const failedRequestCurrencies = (erro) => ({
   type: FAILED_REQUEST,
   erro,
+});
+
+export const removeExpenses = (expenses) => ({
+  type: DELETE_EXPENSES,
+  expenses,
 });
 
 export const newExpense = (expense, cambio) => ({

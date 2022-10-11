@@ -1,5 +1,5 @@
 import { FORM_SUBMIT, GET_CURRENCIES, FAILED_REQUEST,
-  ADD_EXPENSE, NEW_EXPENSE } from '../actions';
+  ADD_EXPENSE, NEW_EXPENSE, DELETE_EXPENSES } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -10,6 +10,8 @@ const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case FORM_SUBMIT:
     return { ...state, ...action.curr };
+  case DELETE_EXPENSES:
+    return { ...state, expenses: [...action.expenses] };
   case GET_CURRENCIES:
     return { ...state, currencies: Object.keys(action.curr) };
   case ADD_EXPENSE:

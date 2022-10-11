@@ -3,6 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Table extends Component {
+  // deleteId = (id) => {
+  //   const { expenses } = this.props;
+  //   const removeItem = expenses.filter((expense) => (
+  //     expense.id !== id
+  //   ));
+  // };
+
   confereCoin(curr) {
     if (curr === 'USD') {
       return 'Dólar Americano/Real Brasileiro';
@@ -44,6 +51,15 @@ class Table extends Component {
           <td>
             Real
           </td>
+          <td>
+            <button
+              type="button"
+              data-testid="delete-btn"
+            >
+              Excluir
+            </button>
+
+          </td>
         </tr>
       ))
     );
@@ -76,8 +92,12 @@ Table.propTypes = {
   expenses: PropTypes.instanceOf(Array).isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  deleteCurrency: (id) => dispatch(deleteExpense(id)),
+});
+
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Table);
+export default connect(mapStateToProps, mapDispatchToProps)(Table);

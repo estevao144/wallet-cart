@@ -83,6 +83,7 @@ class WalletForm extends React.Component {
           <input
             data-testid="value-input"
             type="number"
+            placeholder="valor"
             id="value-input"
             value={ value }
             name="value"
@@ -96,6 +97,7 @@ class WalletForm extends React.Component {
           <input
             data-testid="description-input"
             type="text"
+            placeholder="description-input"
             id="description-input"
             value={ description }
             name="description"
