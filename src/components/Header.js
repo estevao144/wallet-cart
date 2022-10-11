@@ -25,7 +25,7 @@ class Header extends React.Component {
             {' '}
             Total de despesas:
             <span data-testid="total-field">
-              { soma }
+              { parseFloat(soma).toFixed(2) }
             </span>
           </p>
         </div>

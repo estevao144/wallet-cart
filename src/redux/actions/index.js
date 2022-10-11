@@ -33,9 +33,9 @@ export const failedRequestCurrencies = (erro) => ({
   erro,
 });
 
-export const removeExpenses = (expenses) => ({
+export const removeExpenses = (id) => ({
   type: DELETE_EXPENSES,
-  expenses,
+  id,
 });
 
 export const newExpense = (expense, cambio) => ({

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { removeExpenses } from '../redux/actions';
 
 class Table extends Component {
-  // deleteId = (id) => {
-  //   const { expenses } = this.props;
-  //   const removeItem = expenses.filter((expense) => (
-  //     expense.id !== id
-  //   ));
-  // };
+  deleteId = (id) => {
+    const { deleteCurrency } = this.props;
+    deleteCurrency(id);
+  };
 
   confereCoin(curr) {
     if (curr === 'USD') {
@@ -55,6 +54,7 @@ class Table extends Component {
             <button
               type="button"
               data-testid="delete-btn"
+              onClick={ () => this.deleteId(expense.id) }
             >
               Excluir
             </button>
@@ -90,10 +90,11 @@ class Table extends Component {
 }
 Table.propTypes = {
   expenses: PropTypes.instanceOf(Array).isRequired,
+  deleteCurrency: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteCurrency: (id) => dispatch(deleteExpense(id)),
+  deleteCurrency: (id) => dispatch(removeExpenses(id)),
 });
 
 const mapStateToProps = (state) => ({

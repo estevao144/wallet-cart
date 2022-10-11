@@ -11,7 +11,10 @@ const wallet = (state = INITIAL_STATE, action) => {
   case FORM_SUBMIT:
     return { ...state, ...action.curr };
   case DELETE_EXPENSES:
-    return { ...state, expenses: [...action.expenses] };
+    return ({
+      ...state,
+      expenses: state.expenses.filter((element) => element.id !== action.id),
+    });
   case GET_CURRENCIES:
     return { ...state, currencies: Object.keys(action.curr) };
   case ADD_EXPENSE:
